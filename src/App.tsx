@@ -44,6 +44,7 @@ const PLAYER_COLOR_LABEL_MAP: Record<number, string> = {
 }
 const LOCAL_STORAGE_KEY = 'preflop-range-progress'
 const HAND_RANGE_PATH = `${import.meta.env.BASE_URL}hand_range.csv`
+const REFERENCE_IMAGE_PATH = `${import.meta.env.BASE_URL}reference.png`
 
 const DEFAULT_PROGRESS: ProgressStore = {
   totalMisses: 0,
@@ -334,6 +335,16 @@ function App() {
               正解は <span>{currentHand.Players}</span> Players /{' '}
               <span>{currentHand.Color}</span>
             </p>
+          </div>
+        )}
+
+        {answerStatus !== 'idle' && (
+          <div className="reference-image">
+            <img
+              src={REFERENCE_IMAGE_PATH}
+              alt="ハンドレンジ参照画像"
+              loading="lazy"
+            />
           </div>
         )}
 
