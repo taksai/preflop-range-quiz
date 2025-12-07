@@ -338,6 +338,14 @@ function App() {
           </div>
         )}
 
+        <button
+          className="next-button"
+          onClick={handleNext}
+          disabled={answerStatus === 'idle'}
+        >
+          次のハンドへ
+        </button>
+
         {answerStatus !== 'idle' && (
           <div className="reference-image">
             <img
@@ -347,14 +355,6 @@ function App() {
             />
           </div>
         )}
-
-        <button
-          className="next-button"
-          onClick={handleNext}
-          disabled={answerStatus === 'idle'}
-        >
-          次のハンドへ
-        </button>
       </main>
     </div>
   )
