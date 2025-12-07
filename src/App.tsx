@@ -31,6 +31,17 @@ type ProgressStore = {
 type AnswerStatus = 'idle' | 'correct' | 'incorrect'
 
 const PLAYER_OPTIONS = [0, 1, 2, 3, 5, 7, 8, 9, 10]
+const PLAYER_COLOR_LABEL_MAP: Record<number, string> = {
+  0: 'グレー',
+  1: 'ピンク',
+  2: '紫',
+  3: '白',
+  5: '水色',
+  7: '緑',
+  8: 'オレンジ',
+  9: '赤',
+  10: '紺',
+}
 const LOCAL_STORAGE_KEY = 'preflop-range-progress'
 const HAND_RANGE_PATH = `${import.meta.env.BASE_URL}hand_range.csv`
 
@@ -190,11 +201,6 @@ function App() {
     setCurrentHand(pickWeightedHand(hands))
   }, [hands, currentHand])
 
-  const colorTheme = useMemo(
-    () => getColorTheme(currentHand?.Color ?? 'default'),
-    [currentHand],
-  )
-
   const playerRows = useMemo(() => {
     const midpoint = Math.ceil(PLAYER_OPTIONS.length / 2)
     return [
@@ -291,25 +297,30 @@ function App() {
           <div className="player-rows">
             {playerRows.map((rowValues, rowIndex) => (
               <div className="player-row" key={`row-${rowIndex}`}>
-                {rowValues.map((value) => (
-                  <button
-                    key={value}
-                    className={[
-                      'answer-button',
-                      selectedValue === value ? 'answer-button--selected' : '',
-                    ]
-                      .filter(Boolean)
-                      .join(' ')}
-                    style={{
-                      backgroundColor: colorTheme.background,
-                      color: colorTheme.text,
-                    }}
-                    disabled={!currentHand || answerStatus !== 'idle'}
-                    onClick={() => handleAnswer(value)}
-                  >
-                    {value}
-                  </button>
-                ))}
+                {rowValues.map((value) => {
+                  const buttonTheme = getColorTheme(
+                    PLAYER_COLOR_LABEL_MAP[value] ?? 'default',
+                  )
+                  return (
+                    <button
+                      key={value}
+                      className={[
+                        'answer-button',
+                        selectedValue === value ? 'answer-button--selected' : '',
+                      ]
+                        .filter(Boolean)
+                        .join(' ')}
+                      style={{
+                        backgroundColor: buttonTheme.background,
+                        color: buttonTheme.text,
+                      }}
+                      disabled={!currentHand || answerStatus !== 'idle'}
+                      onClick={() => handleAnswer(value)}
+                    >
+                      {value}
+                    </button>
+                  )
+                })}
               </div>
             ))}
           </div>
