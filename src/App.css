@@ -40,22 +40,22 @@ header h1 {
 
 .hand-card {
   text-align: center;
-  padding: 24px;
-  border-radius: 20px;
+  padding: 12px 16px 20px;
+  border-radius: 18px;
   background: rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(148, 163, 184, 0.3);
 }
 
 .hand-label {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   color: #94a3b8;
 }
 
 .hand-value {
-  font-size: clamp(3rem, 8vw, 4.2rem);
-  margin: 16px 0;
+  font-size: clamp(2.6rem, 7vw, 3.6rem);
+  margin: 8px 0 0;
   font-weight: 700;
   color: #f8fafc;
 }

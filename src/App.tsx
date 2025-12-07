@@ -283,7 +283,6 @@ function App() {
     <div className="app-shell">
       <header>
         <p className="tagline">Preflop Range Quiz</p>
-        <h1>ハンドレンジ暗記トレーナー</h1>
       </header>
 
       <main className="quiz-card">
