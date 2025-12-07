@@ -120,7 +120,7 @@ function App() {
   const [selectedValue, setSelectedValue] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [progress, setProgress] = useState<ProgressStore>(DEFAULT_PROGRESS)
+  const [_progress, setProgress] = useState<ProgressStore>(DEFAULT_PROGRESS)
 
   const updateProgress = useCallback((updater: (prev: ProgressStore) => ProgressStore) => {
     setProgress((prev) => {
@@ -195,6 +195,14 @@ function App() {
     [currentHand],
   )
 
+  const playerRows = useMemo(() => {
+    const midpoint = Math.ceil(PLAYER_OPTIONS.length / 2)
+    return [
+      PLAYER_OPTIONS.slice(0, midpoint),
+      PLAYER_OPTIONS.slice(midpoint),
+    ]
+  }, [])
+
   const handleAnswer = (value: number) => {
     if (!currentHand || answerStatus !== 'idle') return
     setSelectedValue(value)
@@ -238,10 +246,6 @@ function App() {
     setCurrentHand(pickWeightedHand(hands))
   }
 
-  const lastMissedLabel = currentHand?.lastMissedAt
-    ? new Date(currentHand.lastMissedAt).toLocaleString('ja-JP')
-    : 'まだミスなし'
-
   if (loading) {
     return (
       <div className="app-shell">
@@ -276,57 +280,37 @@ function App() {
         <h1>ハンドレンジ暗記トレーナー</h1>
       </header>
 
-      <section className="status-panel">
-        <div>
-          <span className="label">累計ミス</span>
-          <strong className="value">{progress.totalMisses}</strong>
-        </div>
-        <div>
-          <span className="label">このハンドのmisses</span>
-          <strong className="value">{currentHand?.misses ?? '-'}</strong>
-        </div>
-        <div>
-          <span className="label">最後にミスした日時</span>
-          <strong className="value">{lastMissedLabel}</strong>
-        </div>
-      </section>
-
       <main className="quiz-card">
         <section className="hand-card">
           <span className="hand-label">Hand</span>
           <p className="hand-value">{currentHand?.Hand ?? '--'}</p>
-          <span
-            className="color-chip"
-            style={{
-              backgroundColor: colorTheme.background,
-              color: colorTheme.text,
-            }}
-          >
-            {currentHand?.Color ?? '-'}
-          </span>
         </section>
 
         <section>
           <h2>Players を選択</h2>
-          <div className="player-grid">
-            {PLAYER_OPTIONS.map((value) => (
-              <button
-                key={value}
-                className={[
-                  'answer-button',
-                  selectedValue === value ? 'answer-button--selected' : '',
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-                style={{
-                  backgroundColor: colorTheme.background,
-                  color: colorTheme.text,
-                }}
-                disabled={!currentHand || answerStatus !== 'idle'}
-                onClick={() => handleAnswer(value)}
-              >
-                {value}
-              </button>
+          <div className="player-rows">
+            {playerRows.map((rowValues, rowIndex) => (
+              <div className="player-row" key={`row-${rowIndex}`}>
+                {rowValues.map((value) => (
+                  <button
+                    key={value}
+                    className={[
+                      'answer-button',
+                      selectedValue === value ? 'answer-button--selected' : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    style={{
+                      backgroundColor: colorTheme.background,
+                      color: colorTheme.text,
+                    }}
+                    disabled={!currentHand || answerStatus !== 'idle'}
+                    onClick={() => handleAnswer(value)}
+                  >
+                    {value}
+                  </button>
+                ))}
+              </div>
             ))}
           </div>
         </section>
