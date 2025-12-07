@@ -3,7 +3,7 @@
 - ゴール: ハンドがランダムに提示され、ユーザーが `Players` に対応するボタンを押すことで即時に正誤が分かり、ミスの多いハンドがより頻繁に出題されるようにする。
 
 ## データソース
-- ファイル: `/Users/takumasaito/workspace/pk/preflop-range-quiz/hand_range.csv`
+- ファイル: `public/hand_range.csv` (ビルド時に公開パス `/hand_range.csv` として取得)
 - カラム:
   - `Hand`: ハンド表記 (例: `AKs`)
   - `Color`: UI の配色タグ (例: `紺`, `赤`, `グレー`)
